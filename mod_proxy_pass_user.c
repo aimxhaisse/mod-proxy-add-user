@@ -8,12 +8,16 @@
  * applications through http headers.
  *
  * Apache's documentation recommends using "LA-U:REMOTE_USER" to solve this 
- * problematic, however this sometimes is not possible (mod_auth_openid).
+ * problematic, however this is sometimes not possible because
+ * some modules set it in the handler hook, too bad :(
  *
  * The module itself is ugly, because it depends on modules that set environment
  * variable into the handler hook, before declining, instead of doing this in the
- * fixup phase. So it registers just after these hooks, set the header field in the
- * response and decline it, so as to be processed by proxy modules.
+ * fixup phase. So it registers just after these hooks, before the proxy handler.
+ *
+ * That's why the module MUST be loaded between your authentication module and
+ * the proxy module, so as to be called at the right moment. This is really ugly,
+ * but actually the only solution with some authentication modules.
  *
  * @todo: add configuration directives
  */
