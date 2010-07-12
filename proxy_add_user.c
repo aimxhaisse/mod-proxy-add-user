@@ -23,7 +23,8 @@
  */
 
 /* If REMOTE_USER is available, add it to headers */
-static int mod_proxy_pass_user_handler(request_rec *request)
+static int
+proxy_add_user_handler(request_rec *request)
 {
   if (request->user != NULL)
     {
@@ -35,14 +36,14 @@ static int mod_proxy_pass_user_handler(request_rec *request)
 
 /* Register hooks */
 static void
-mod_proxy_pass_user_register_hooks(apr_pool_t *pool)
+proxy_add_user_register_hooks(apr_pool_t *pool)
 {
   /* only one hook called before performing the proxy request */
   ap_hook_handler(mod_proxy_pass_user_handler, NULL, NULL, APR_HOOK_FIRST);
 }
 
 /* Register the module */
-module AP_MODULE_DECLARE_DATA mod_proxy_pass_user_module =
+module AP_MODULE_DECLARE_DATA proxy_add_user_module =
   {
     STANDARD20_MODULE_STUFF,
     NULL,
@@ -50,5 +51,5 @@ module AP_MODULE_DECLARE_DATA mod_proxy_pass_user_module =
     NULL,
     NULL,
     NULL,
-    &mod_proxy_pass_user_register_hooks
+    &proxy_add_user_register_hooks
   };
