@@ -22,6 +22,65 @@
  * @todo: add configuration directives
  */
 
+/* Configuration settings */
+typedef struct
+{
+  int	enabled;	/* != 0 if enabled */
+  char	*key_name;	/* default to X-REMOTE_USER */
+} proxy_add_user_config;
+
+/* allocated a new configuration */
+static void *
+proxy_add_user_create_config(apr_pool_t *pool, char *s)
+{
+  proxy_add_user_config *	cfg;
+
+  if ((cfg = apr_pcalloc(pool, sizeof(*cfg))) != NULL)
+    {
+      cfg->key_name = "X-REMOTE_USER";
+    }
+
+  return cfg;
+}
+
+/* Enable (or not) the module */
+static const char *
+proxy_add_user_enable(cmd_parms *cmd, void *config, const char *arg)
+{
+  proxy_add_user_config		*cfg = (proxy_add_user_config *) config;
+
+  if (strcasecmp(arg, "On") == 0)
+    {
+      cfg->enabled = 1;
+      return NULL;
+    }
+  if (strcasecmp(arg, "Off") == 0)
+    {
+      cfg->enabled = 0;
+      return NULL;
+    }
+  return "ProxyAddUser must be set to \"On\" or \"Off\"";
+}
+
+/* Configuration settings */
+static const command_rec 
+proxy_add_user_commands[] =
+  {
+    /* Enable or not the module */
+    AP_INIT_TAKE1("ProxyAddUser", 
+		  proxy_add_user_enable, 
+		  NULL, 
+		  OR_AUTHCFG,
+		  "Enable ProxyAddUser <On | Off>"),
+    /* Which key to use */
+    AP_INIT_TAKE1("ProxyAddUserKey",
+		  proxy_add_user_set_key,
+		  NULL,
+		  OR_AUTHCFG,
+		  "Header key to be set (default is X-REMOTE_USER)"),
+    NULL
+  };
+
 /* If REMOTE_USER is available, add it to headers */
 static int
 proxy_add_user_handler(request_rec *request)
@@ -46,10 +105,10 @@ proxy_add_user_register_hooks(apr_pool_t *pool)
 module AP_MODULE_DECLARE_DATA proxy_add_user_module =
   {
     STANDARD20_MODULE_STUFF,
+    &proxy_add_user_create_config,
     NULL,
     NULL,
     NULL,
-    NULL,
-    NULL,
+    &proxy_add_user_commands,
     &proxy_add_user_register_hooks
   };
