@@ -35,7 +35,7 @@ typedef struct
 static void *
 proxy_add_user_create_config(apr_pool_t *pool, char *s)
 {
-  proxy_add_user_config *	cfg;
+  proxy_add_user_config	*cfg;
 
   if ((cfg = apr_pcalloc(pool, sizeof(*cfg))) != NULL)
     {
@@ -49,7 +49,7 @@ proxy_add_user_create_config(apr_pool_t *pool, char *s)
 static const char *
 proxy_add_user_enable(cmd_parms *cmd, void *config, const char *arg)
 {
-  proxy_add_user_config		*cfg = (proxy_add_user_config *) config;
+  proxy_add_user_config	*cfg = (proxy_add_user_config *) config;
 
   if (strcasecmp(arg, "On") == 0)
     {
@@ -68,7 +68,7 @@ proxy_add_user_enable(cmd_parms *cmd, void *config, const char *arg)
 static const char *
 proxy_add_user_set_key(cmd_parms *cmd, void *config, const char *arg)
 {
-  proxy_add_user_config		*cfg = (proxy_add_user_config *) config;
+  proxy_add_user_config	*cfg = (proxy_add_user_config *) config;
 
   cfg->key_name = arg;
   return NULL;
@@ -97,12 +97,13 @@ proxy_add_user_commands[] =
 static int
 proxy_add_user_handler(request_rec *request)
 {
-  void		*cfg;
+  void			*cfg;
 
   cfg = ap_get_module_config(request->per_dir_config, &proxy_add_user_module);
-  if (cfg && ((proxy_add_user_config *) cfg)->enabled != 0 && request->user != NULL)
+  if (cfg && ((proxy_add_user_config *) cfg)->enabled && request->user != NULL)
     {
-      apr_table_set(request->headers_in, "X-REMOTE_USER", request->user);
+      apr_table_set(request->headers_in, 
+		    ((proxy_add_user_config *) cfg)->key_name, request->user);
       apr_table_unset(request->headers_in, "Authorization");
     }
   return DECLINED;
