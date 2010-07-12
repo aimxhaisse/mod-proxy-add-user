@@ -23,7 +23,7 @@ static int mod_proxy_pass_user_handler(request_rec *request)
 
 /* Register hooks */
 static void
-mod_proxy_pass_user_module(apr_pool_t *pool)
+mod_proxy_pass_user_register_hooks(apr_pool_t *pool)
 {
   /* only one hook called before performing the proxy request */
   ap_hook_fixups(mod_proxy_pass_user_handler, NULL, NULL, APR_HOOK_LAST);
