@@ -19,7 +19,7 @@
  * the proxy module, so as to be called at the right moment. This is really ugly,
  * but actually the only solution with some authentication modules.
  *
- * @todo: add configuration directives
+ * @todo: add documentation
  */
 
 module AP_MODULE_DECLARE_DATA proxy_add_user_module;
