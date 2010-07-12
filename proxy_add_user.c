@@ -25,8 +25,8 @@
 /* Configuration settings */
 typedef struct
 {
-  int	enabled;	/* != 0 if enabled */
-  char	*key_name;	/* default to X-REMOTE_USER */
+  int		enabled;	/* != 0 if enabled */
+  const char	*key_name;	/* default to X-REMOTE_USER */
 } proxy_add_user_config;
 
 /* allocated a new configuration */
@@ -62,6 +62,16 @@ proxy_add_user_enable(cmd_parms *cmd, void *config, const char *arg)
   return "ProxyAddUser must be set to \"On\" or \"Off\"";
 }
 
+/* Change the header key to the value pointed by arg */
+static const char *
+proxy_add_user_set_key(cmd_parms *cmd, void *config, const char *arg)
+{
+  proxy_add_user_config		*cfg = (proxy_add_user_config *) config;
+
+  cfg->key_name = arg;
+  return NULL;
+}
+
 /* Configuration settings */
 static const command_rec 
 proxy_add_user_commands[] =
@@ -78,7 +88,7 @@ proxy_add_user_commands[] =
 		  NULL,
 		  OR_AUTHCFG,
 		  "Header key to be set (default is X-REMOTE_USER)"),
-    NULL
+    {NULL}
   };
 
 /* If REMOTE_USER is available, add it to headers */
@@ -102,13 +112,14 @@ proxy_add_user_register_hooks(apr_pool_t *pool)
 }
 
 /* Register the module */
-module AP_MODULE_DECLARE_DATA proxy_add_user_module =
+module AP_MODULE_DECLARE_DATA
+proxy_add_user_module =
   {
     STANDARD20_MODULE_STUFF,
-    &proxy_add_user_create_config,
+    proxy_add_user_create_config,
     NULL,
     NULL,
     NULL,
-    &proxy_add_user_commands,
-    &proxy_add_user_register_hooks
+    proxy_add_user_commands,
+    proxy_add_user_register_hooks
   };
