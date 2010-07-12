@@ -1,12 +1,19 @@
 #include "httpd.h"
 #include "http_config.h"
 
+#include <stdio.h>
+
 /*
  * A tiny module to pass REMOTER_USER environment variable to proxified
  * applications through http headers.
  *
  * Apache's documentation recommends using "LA-U:REMOTE_USER" to solve this 
  * problematic, however this sometimes is not possible (mod_auth_openid).
+ *
+ * The module itself is ugly, because it depends on modules that set environment
+ * variable into the handler hook, before declining, instead of doing this in the
+ * fixup phase. So it registers just after these hooks, set the header field in the
+ * response and decline it, so as to be processed by proxy modules.
  *
  * @todo: add configuration directives
  */
@@ -19,6 +26,7 @@ static int mod_proxy_pass_user_handler(request_rec *request)
       apr_table_set(request->headers_in, "X-REMOTE_USER", request->user);
       apr_table_unset(request->headers_in, "Authorization");
     }
+  return DECLINED;
 }
 
 /* Register hooks */
@@ -26,7 +34,7 @@ static void
 mod_proxy_pass_user_register_hooks(apr_pool_t *pool)
 {
   /* only one hook called before performing the proxy request */
-  ap_hook_fixups(mod_proxy_pass_user_handler, NULL, NULL, APR_HOOK_LAST);
+  ap_hook_handler(mod_proxy_pass_user_handler, NULL, NULL, APR_HOOK_FIRST);
 }
 
 /* Register the module */
