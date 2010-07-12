@@ -22,6 +22,8 @@
  * @todo: add configuration directives
  */
 
+module AP_MODULE_DECLARE_DATA proxy_add_user_module;
+
 /* Configuration settings */
 typedef struct
 {
@@ -95,7 +97,10 @@ proxy_add_user_commands[] =
 static int
 proxy_add_user_handler(request_rec *request)
 {
-  if (request->user != NULL)
+  void		*cfg;
+
+  cfg = ap_get_module_config(request->per_dir_config, &proxy_add_user_module);
+  if (cfg && ((proxy_add_user_config *) cfg)->enabled != 0 && request->user != NULL)
     {
       apr_table_set(request->headers_in, "X-REMOTE_USER", request->user);
       apr_table_unset(request->headers_in, "Authorization");
