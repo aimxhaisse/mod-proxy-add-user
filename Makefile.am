@@ -1,3 +1,3 @@
-lib_LTLIBRARIES = libmod_proxy_pass_user.la
-libmod_proxy_pass_user_la_SOURCES = mod_proxy_pass_user.c
+lib_LTLIBRARIES = libproxy_add_user.la
+libproxy_add_user_la_SOURCES = proxy_add_user.c
 INCLUDES = -I@apache_dir@/include -I/usr/include/apr-1.0/

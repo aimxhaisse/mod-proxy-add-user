@@ -39,7 +39,7 @@ static void
 proxy_add_user_register_hooks(apr_pool_t *pool)
 {
   /* only one hook called before performing the proxy request */
-  ap_hook_handler(mod_proxy_pass_user_handler, NULL, NULL, APR_HOOK_FIRST);
+  ap_hook_handler(proxy_add_user_handler, NULL, NULL, APR_HOOK_FIRST);
 }
 
 /* Register the module */
