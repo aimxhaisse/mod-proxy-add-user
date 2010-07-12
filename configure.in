@@ -1,0 +1,30 @@
+AC_INIT
+
+AM_INIT_AUTOMAKE(mod-proxy-pass-user, 1.0)
+AC_PROG_CC
+AM_PROG_LIBTOOL
+
+AC_DEFUN([APACHE_DIR], [
+     AC_ARG_WITH(
+       apache,
+       [ --with-apache[=DIR] Apache server directory], ,
+       [with_apache="no"]
+     )
+
+     AC_MSG_CHECKING(for Apache directory)
+     if test "$with_apache" = "no";
+     then
+	AC_MSG_ERROR( Specify the apache using --with-apache )
+     else
+	if test -e $with_apache/include/httpd.h
+	   then
+		apache_dir=$with_apache
+	   else
+		AC_MSG_ERROR( $with_apache not found. )
+	   fi
+     fi
+])
+
+APACHE_DIR
+AC_SUBST(apache_dir)
+AC_OUTPUT(Makefile)
