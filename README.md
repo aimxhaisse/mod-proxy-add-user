@@ -39,13 +39,13 @@ added to Proxy) :
 
 Here is an example of configuration :
 
-        \<Proxy *\>
-	Order			deny,allow
-        Allow			from all
-        ProxyAddUser		On	# Enable the module
-        ProxyAddUserKey		"OpenID-IDENTITY"
-        AuthOpenIDEnabled	On
-        \</Proxy\>
+        <Proxy *>
+         Order                  deny,allow
+         Allow                  from all
+         ProxyAddUser           On                 # Enable the module
+         ProxyAddUserKey        "OpenID-IDENTITY"  # Set header field to OpenID-IDENTITY
+         AuthOpenIDEnabled      On
+        </Proxy>
 
 ## Security
 
