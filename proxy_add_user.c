@@ -1,9 +1,27 @@
+/*
+ *            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+ *                   Version 2, December 2004
+ *
+ * Copyright (C) 2010 Sebastien Rannou
+ *
+ * Everyone is permitted to copy and distribute verbatim or modified
+ * copies of this license document, and changing it is allowed as long
+ * as the name is changed.
+ *
+ * DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+ * TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+ *
+ * 0. You just DO WHAT THE FUCK YOU WANT TO.
+ */
+
 #include "httpd.h"
 #include "http_config.h"
 
 #include <stdio.h>
 
 /*
+ * Module written by sebastien rannou <mxs@buffout.org>
+ *
  * A tiny module to pass REMOTER_USER environment variable to proxified
  * applications through http headers.
  *
@@ -18,8 +36,6 @@
  * That's why the module MUST be loaded between your authentication module and
  * the proxy module, so as to be called at the right moment. This is really ugly,
  * but actually the only solution with some authentication modules.
- *
- * @todo: add documentation
  */
 
 module AP_MODULE_DECLARE_DATA proxy_add_user_module;
