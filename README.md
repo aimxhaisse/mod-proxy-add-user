@@ -50,5 +50,5 @@ Here is an example of configuration :
 ## Security
 
 You can't trust the X-REMOTE_USER header field unless you are *sure* your web
-application can't be accessed only by the outside. Every http request *must*
+application is only reachable by the outside. Every http request *must*
 pass by the proxy.
