@@ -1,3 +1,4 @@
-lib_LTLIBRARIES = libproxy_add_user.la
-libproxy_add_user_la_SOURCES = proxy_add_user.c
-INCLUDES = -I@apache_dir@/include -I/usr/include/apr-1.0/
+apachemoddir = $(libdir)/apache2/modules
+apachemod_LTLIBRARIES = mod_proxy_add_user.la
+mod_proxy_add_user_la_SOURCES = proxy_add_user.c
+mod_proxy_add_user_la_LDFLAGS = -module -avoid-version

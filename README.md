@@ -14,8 +14,8 @@ As the result, REMOTE_USER can be catched even in proxified applications.
 
 ## Installation
 
-  - Compile the module (./configure && make)
-  - Copy the module to the apache module directory (/usr/lib/apache2/modules/)
+  - Compile the module (./configure --prefix=/usr && make)
+  - Copy the module to the apache module directory (sudo make install)
 
 Don't use a2enmod unless you know what you are doing, the order of loading 
 is important (see Configuration).
@@ -28,7 +28,7 @@ the modules are loaded.
 Extract of httpd.conf :
 
         LoadModule authopenid_module /usr/lib/apache2/modules/mod_auth_openid.so
-        LoadModule proxy_add_user_module /usr/lib/apache2/modules/libproxy_add_user.so
+        LoadModule proxy_add_user_module /usr/lib/apache2/modules/mod_proxy_add_user.so
         LoadModule proxy_module /usr/lib/apache2/modules/mod_proxy.so
 
 The module has two settings working on a per directory basis (they can be
