@@ -10,7 +10,7 @@ solution is to use a tricky module, registered between the authentication
 process and the mod_proxy handler, which can retrieve the REMOTE_USER field
 and set it to output headers, just before beeing send by mod_proxy.
 
-As the result, REMOTE_USER can be catched even in 
+As the result, REMOTE_USER can be catched even in proxified applications.
 
 ## Installation
 
@@ -39,13 +39,13 @@ added to Proxy) :
 
 Here is an example of configuration :
 
-  <Proxy *>
+        \<Proxy *\>
 	Order			deny,allow
         Allow			from all
         ProxyAddUser		On	# Enable the module
         ProxyAddUserKey		"OpenID-IDENTITY"
         AuthOpenIDEnabled	On
-  </Proxy>
+        \</Proxy\>
 
 ## Security
 
