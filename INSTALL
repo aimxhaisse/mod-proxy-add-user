@@ -1,0 +1,41 @@
+=== Installation ===
+
+ - Compile the module (./configure && make)
+ - Copy the module to the apache module directory (/usr/lib/apache2/modules/)
+
+Don't use a2enmod unless you know what you are doing, the order of loading is
+important (see Configuration).
+
+=== Configuration ===
+
+Configuration of the module is tricky as it depends on the order on which the 
+modules are loaded. The module must be loaded between your authentication module
+and the proxy module.
+
+Extract of httpd.conf :
+
+    LoadModule authopenid_module /xxx/modules/mod_auth_openid.so
+    LoadModule proxy_add_user_module /xxx/modules/libproxy_add_user.so
+    LoadModule proxy_module /xxx/modules/mod_proxy.so
+
+The module has two settings working on a per directory basis (they can be added 
+to Proxy) :
+
+ - ProxyAddUser to enable or not the module (on/off)
+ - ProxyAddUserKey to customize the header key to be set (default is 
+   "X-REMOTE_USER")
+
+Here is an example of configuration :
+
+    <Proxy *>
+     Order                  deny,allow
+     Allow                  from all
+
+     # Enable the module
+     ProxyAddUser           On
+
+     # Set header field to OpenID-IDENTITY
+     ProxyAddUserKey        "OpenID-IDENTITY"
+
+     AuthOpenIDEnabled      On
+    </Proxy>
