@@ -49,3 +49,8 @@ Here is an example of configuration :
 You can't trust the X-REMOTE_USER header field unless you are *sure* your web
 application is only reachable by the outside. Every http request *must*
 pass by the proxy.
+
+=== Notes ===
+
+This module was written thanks to a nice article which can be found here :
+http://www.jaddog.org/2010/03/22/how-to-proxy-pass-remote_user/ .
