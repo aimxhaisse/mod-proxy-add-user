@@ -27,9 +27,9 @@ the modules are loaded.
 
 Extract of httpd.conf :
 
-  LoadModule authopenid_module /usr/lib/apache2/modules/mod_auth_openid.so
-  LoadModule proxy_add_user_module /usr/lib/apache2/modules/libproxy_add_user.so
-  LoadModule proxy_module /usr/lib/apache2/modules/mod_proxy.so
+        LoadModule authopenid_module /usr/lib/apache2/modules/mod_auth_openid.so
+        LoadModule proxy_add_user_module /usr/lib/apache2/modules/libproxy_add_user.so
+        LoadModule proxy_module /usr/lib/apache2/modules/mod_proxy.so
 
 The module has two settings working on a per directory basis (they can be
 added to Proxy) :
