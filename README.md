@@ -14,7 +14,7 @@ As the result, REMOTE_USER can be catched even in proxified applications.
 
 ## Installation
 
-  - Compile the module (./configure --prefix=/usr && make)
+  - Compile the module (make all)
   - Copy the module to the apache module directory (sudo make install)
 
 Don't use a2enmod unless you know what you are doing, the order of loading 
